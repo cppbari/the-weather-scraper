@@ -1,4 +1,7 @@
-https://www.wunderground.com/dashboard/pws/IFILADEL7
-https://www.wunderground.com/dashboard/pws/IFILAD6
-https://www.wunderground.com/dashboard/pws/I19FILAD2
-https://www.wunderground.com/dashboard/pws/IBOQUERO2
+https://www.wunderground.com/dashboard/pws/KWAPULLM52
+https://www.wunderground.com/dashboard/pws/KWAPULLM56
+https://www.wunderground.com/dashboard/pws/KWAPULLM76
+https://www.wunderground.com/dashboard/pws/KWAPULLM42
+https://www.wunderground.com/dashboard/pws/KWAPULLM60
+https://www.wunderground.com/dashboard/pws/KWAPULLM64
+
