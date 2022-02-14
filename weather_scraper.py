@@ -59,29 +59,34 @@ def scrap_station(weather_station_url):
             raise Exception("please set 'unit_system' to either \"metric\" or \"imperial\"! ")
 
         for date_string, url in url_gen:
-            try:
-                print(f'🌞 🌨 ⛈ from {url}')
-                history_table = False
-                while not history_table:
-                    html_string = session.get(url, timeout=timeout)
-                    doc = lh.fromstring(html_string.content)
-                    history_table = doc.xpath('//*[@id="main-page-content"]/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
-                    if not history_table:
-                        print("refreshing session")
-                        session = requests.Session()
+            success = False
+            while not success:
+                try:
+                    print(f'🌞 🌨 ⛈ from {url}')
+                    history_table = False
+                    while not history_table:
+                        html_string = session.get(url, timeout=timeout)
+                        doc = lh.fromstring(html_string.content)
+                        history_table = doc.xpath('//*[@id="main-page-content"]/div/div/div/lib-history/div[2]/lib-history-table/div/div/div/table/tbody')
+                        if not history_table:
+                            print("refreshing session")
+                            session = requests.Session()
 
 
-                # parse html table rows
-                data_rows = Parser.parse_html_table(date_string, history_table)
+                    # parse html table rows
+                    data_rows = Parser.parse_html_table(date_string, history_table)
 
-                # convert to metric system
-                converter = ConvertToSystem(UNIT_SYSTEM)
-                data_to_write = converter.clean_and_convert(data_rows)
+                    # convert to metric system
+                    converter = ConvertToSystem(UNIT_SYSTEM)
+                    data_to_write = converter.clean_and_convert(data_rows)
                     
-                print(f'Saving {len(data_to_write)} rows')
-                writer.writerows(data_to_write)
-            except Exception as e:
-                print(e)
+                    print(f'Saving {len(data_to_write)} rows')
+                    writer.writerows(data_to_write)
+                    success = True
+                except requests.exceptions.Timeout as e:
+                    print('Timeout exception caught: ', e)
+                except Exception as e:
+                    print(e)
 
 
 
